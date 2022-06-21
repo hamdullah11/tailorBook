@@ -19,7 +19,8 @@ const ForgotPassword = ({ navigation }) => {
       style={{
         flex: 1,
         // justifyContent: "space-around",?
-        marginHorizontal: width * 0.03,
+        paddingHorizontal: width * 0.03,
+        backgroundColor: "white",
       }}
     >
       <View style={styles.container}>

@@ -5,12 +5,32 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
+import { Audio } from "expo-av";
 
 const { width, height } = Dimensions.get("screen");
 const RecordAudio = () => {
+  const [audio, setAudio] = useState();
+
+  const startRecording = async () => {
+    try {
+      console.log("requesting permission");
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+      );
+      setAudio(recording);
+    } catch (error) {
+      console.error("Failed to start recording", err);
+    }
+  };
+
   return (
     <View>
       <Card
@@ -29,7 +49,7 @@ const RecordAudio = () => {
           }}
         >
           <Text>Record Instructions Audio</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={startRecording}>
             <FontAwesome name="microphone" size={25} color="#8645FF" />
           </TouchableOpacity>
         </View>

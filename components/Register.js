@@ -22,7 +22,7 @@ const Register = ({ navigation }) => {
     userPassword: "",
   });
   return (
-    <ScrollView>
+    <ScrollView showsHorizontalScrollIndicator={false}>
       <View
         style={{
           flex: 1,
@@ -57,7 +57,13 @@ const Register = ({ navigation }) => {
           >
             <TextInput placeholder="Enter your Name" />
           </View>
-          <Text style={{ marginLeft: 12, color: "#1B2B41" }}>
+          <Text
+            style={{
+              marginLeft: 12,
+              color: "#1B2B41",
+              marginTop: width * 0.01,
+            }}
+          >
             Email Address
           </Text>
           <View
@@ -74,7 +80,15 @@ const Register = ({ navigation }) => {
           >
             <TextInput placeholder="Enter your Email" />
           </View>
-          <Text style={{ marginLeft: 12, color: "#1B2B41" }}>Phone Number</Text>
+          <Text
+            style={{
+              marginLeft: 12,
+              color: "#1B2B41",
+              marginTop: width * 0.01,
+            }}
+          >
+            Phone Number
+          </Text>
           <View
             style={{
               flexDirection: "row",
@@ -88,7 +102,16 @@ const Register = ({ navigation }) => {
           >
             <TextInput placeholder="Enter your Phone Number" />
           </View>
-          <Text style={{ marginLeft: 12, color: "#1B2B41" }}>Password</Text>
+          <Text
+            style={{
+              marginLeft: 12,
+              color: "#1B2B41",
+
+              marginTop: width * 0.01,
+            }}
+          >
+            Password
+          </Text>
           <View
             style={{
               flexDirection: "row",
@@ -103,7 +126,7 @@ const Register = ({ navigation }) => {
           >
             <TextInput placeholder="Enter your password" />
             <TouchableOpacity>
-              <Feather name="eye" size={24} color="#1C2E45" />
+              <Feather name="eye" size={24} color="rgba(28,46,69,0.60)" />
             </TouchableOpacity>
           </View>
         </View>
@@ -125,7 +148,7 @@ const Register = ({ navigation }) => {
               }}
             />
             <Text style={{ color: "#1B2B41" }}>
-              I have read and agree to the{" "}
+              I have read and agree to the
             </Text>
             <Text style={{ color: "#8645FF", textDecorationLine: "underline" }}>
               Terms Of Services
@@ -193,7 +216,7 @@ const Register = ({ navigation }) => {
           }}
         >
           <Text style={{ textAlign: "center" }}>Already have an account?</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={navigation.navigate("Login")}>
             <Text style={{ color: "#8645FF" }}> Log in</Text>
           </TouchableOpacity>
         </View>

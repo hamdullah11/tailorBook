@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { Icon } from "native-base";
+import { Store } from "../redux/store";
 import {
   StyleSheet,
   Text,
@@ -65,17 +66,23 @@ const countries = [
     language: "Bangladesh",
     flag: require("../assets/Bangladesh.png"),
   },
+  {
+    id: "10",
+    language: "Bangladesh",
+    flag: require("../assets/Bangladesh.png"),
+  },
 ];
 
-export default function SelectLanguage({ navigation, route }) {
+export default function SelectLanguage({ navigation }) {
   const [isPressed, setIspress] = useState(null);
+  const state = Store.getState();
 
   const languageSelect = (id) => {
     setIspress(id);
   };
-  console.log(route.params.isUserLogin);
+
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <View style={styles.languageContainer}>
           <Text
@@ -93,53 +100,57 @@ export default function SelectLanguage({ navigation, route }) {
               style={styles.input}
               placeholder="User Nickname"
               underlineColor="transparent"
+              backgroundColor="#FBFBFB"
             />
             <TouchableOpacity>
               <Ionicons name="search" size={24} color="#868696" />
             </TouchableOpacity>
           </View>
 
-          <View>
-            <FlatList
-              data={countries}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.dropDownItem,
-                    isPressed && isPressed == item.id
-                      ? styles.dropDownItemPress
-                      : "",
-                  ]}
-                  onPress={() => {
-                    languageSelect(item.id);
+          <FlatList
+            data={countries}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                showsVerticalScrollIndicator={false}
+                style={[
+                  styles.dropDownItem,
+                  isPressed && isPressed == item.id
+                    ? styles.dropDownItemPress
+                    : "",
+                ]}
+                onPress={() => {
+                  languageSelect(item.id);
+                }}
+                key={item.id}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    paddingHorizontal: width * 0.01,
                   }}
-                  key={item.id}
                 >
-                  <View
+                  <Image source={item.flag} />
+                  <Text
                     style={{
-                      flexDirection: "row",
-                      paddingHorizontal: width * 0.01,
+                      marginHorizontal: width * 0.04,
+                      color: "#060416",
                     }}
                   >
-                    <Image source={item.flag} />
-                    <Text
-                      style={{
-                        marginHorizontal: width * 0.04,
-                        color: "#060416",
-                      }}
-                    >
-                      {item.language}
-                    </Text>
-                  </View>
+                    {item.language}
+                  </Text>
+                </View>
 
-                  {isPressed == item.id && (
-                    <Feather name="check-circle" size={24} color="black" />
-                  )}
-                </TouchableOpacity>
-              )}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
+                {isPressed == item.id && (
+                  <Feather name="check-circle" size={24} color="black" />
+                )}
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id}
+            style={{
+              height: width * 1.3,
+            }}
+          />
+
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -152,13 +163,10 @@ export default function SelectLanguage({ navigation, route }) {
                   50
                 );
               } else {
-                console.log(route.params);
-                route.params.setSelectLanguage(true);
-                if (route.params.isUserLogin == false)
-                  navigation.navigate("Login", {
-                    setIsUserLogin: route.params.setIsUserLogin,
-                  });
-                else {
+                console.log(state.userLogin);
+                if (state.userLogin == undefined) {
+                  navigation.navigate("Login");
+                } else {
                   console.log("mainScreen");
                   navigation.navigate("MainScreen");
                 }
@@ -186,7 +194,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#9B71E8",
+    backgroundColor: "#9E78E5",
     padding: 10,
     borderRadius: 5,
     padding: height * 0.03,

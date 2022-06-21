@@ -12,24 +12,30 @@ import {
 import React, { useState } from "react";
 import { Checkbox } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
-
+import { useSelector, useDispatch } from "react-redux";
+import { setUserLogin } from "../redux/actions";
+import loginReducer from "../redux/reducer";
 const { width, height } = Dimensions.get("window");
 const Login = ({ navigation, route }) => {
   const [checked, setChecked] = useState(false);
   const [userMail, setUserMail] = useState("");
   const [password, setPassword] = useState("");
+  const userLogin = useSelector((state) => state.loginReducer);
+
   const setUserEmailAddress = (mail) => {
-    console.log(mail);
     setUserMail(mail);
   };
   const setUserPassword = (password) => {
     setPassword(password);
   };
+  const dispatch = useDispatch();
   return (
     <ScrollView
+      showsHorizontalScrollIndicator={false}
       style={{
         marginVertical: width * 0.18,
-        backgroundColor: "white",
+        showsVerticalScrollIndicator: false,
+        paddingHorizontal: width * 0.02,
       }}
     >
       <View
@@ -50,7 +56,13 @@ const Login = ({ navigation, route }) => {
             marginTop: height * 0.03,
           }}
         >
-          <Text style={{ marginLeft: 12, color: "#1B2B41" }}>
+          <Text
+            style={{
+              color: "#1B2B41",
+              marginTop: width * 0.03,
+              marginBottom: width * 0.01,
+            }}
+          >
             Email Address
           </Text>
           <TextInput
@@ -61,7 +73,15 @@ const Login = ({ navigation, route }) => {
             }}
             value={userMail}
           />
-          <Text style={{ marginLeft: 12, color: "#1B2B41" }}>Password</Text>
+          <Text
+            style={{
+              color: "#1B2B41",
+              marginTop: width * 0.03,
+              marginBottom: width * 0.01,
+            }}
+          >
+            Password
+          </Text>
           <TextInput
             style={styles.input}
             secureTextEntry={true}
@@ -74,14 +94,18 @@ const Login = ({ navigation, route }) => {
         </View>
         <View
           style={{
-            marginLeft: 5,
-            marginRight: 5,
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            marginLeft: width * -0.02,
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
             <Checkbox
               color="#8645FF"
               status={checked ? "checked" : "unchecked"}
@@ -123,9 +147,8 @@ const Login = ({ navigation, route }) => {
                 );
               }
             } else {
-              route.params.setIsUserLogin(true);
+              dispatch(setUserLogin(true));
               navigation.navigate("MainScreen");
-              // console.log(route.params.setIsUserLogin(true));
             }
           }}
         >
@@ -202,7 +225,8 @@ const styles = StyleSheet.create({
   },
   input: {
     height: height * 0.08,
-    margin: 12,
+    // margin: 12,
+
     borderWidth: 1,
     padding: 10,
 
@@ -217,7 +241,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 3,
     padding: height * 0.027,
-    marginHorizontal: width * 0.03,
+    // marginHorizontal: width * 0.03,
     marginTop: height * 0.01,
   },
   googleBtn: {
@@ -227,7 +251,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 3,
     padding: height * 0.027,
-    marginHorizontal: width * 0.03,
+    // marginHorizontal: width * 0.03,
     marginTop: height * 0.01,
   },
 });
